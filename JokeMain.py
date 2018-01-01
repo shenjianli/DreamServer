@@ -70,14 +70,14 @@ def get_joke_list(joke_text):
 def get_joke_page():
         print();
 
-get_joke_list
+
 if __name__ == '__main__':
 
         jokePage = requests.get('http://www.jokeji.cn/list.htm')
         #jokePage = requests.get('http://www.jokeji.cn/list_1.htm')
         jokePage.encoding = 'gbk'
 
-        jokeList = (jokePage.text)  # 使用正则表达式找到所有笑话页面的链接
+        jokeList = get_joke_list(jokePage.text)  # 使用正则表达式找到所有笑话页面的链接
 
         UpdateDB.open_db()
         # 查询最近更新的地址

@@ -4,7 +4,7 @@ import time
 import pymysql
 
 # 打开数据库连接
-db = pymysql.connect("localhost", "root", "cqtddt@2016", "joke")
+db = pymysql.connect("localhost", "root", "cqtddt@2016", "dream")
 db.set_charset('utf8')
 # 使用 cursor() 方法创建一个游标对象 cursor
 cursor = db.cursor()
@@ -14,7 +14,7 @@ cursor = db.cursor()
 def open_db():
     global db, cursor
     # 打开数据库连接
-    db = pymysql.connect("localhost", "root", "cqtddt@2016", "joke")
+    db = pymysql.connect("localhost", "root", "cqtddt@2016", "dream")
     db.set_charset('utf8')
     # 使用 cursor() 方法创建一个游标对象 cursor
     cursor = db.cursor()
@@ -23,7 +23,7 @@ def open_db():
 # 查看mysql版本号
 def select_mysql_version():
     # 使用 execute()  方法执行 SQL 查询
-    cursor.execute("SELECT VERSION()")
+    cursor.execute("select version()")
 
     # 使用 fetchone() 方法获取单条数据.
     data = cursor.fetchone()
@@ -36,10 +36,10 @@ def select_mysql_version():
 # 创建Joke表
 def create_mysql_table():
     # 使用 execute() 方法执行 SQL，如果表存在则删除
-    cursor.execute("DROP TABLE IF EXISTS JOKE")
+    cursor.execute("drop table if exists joke")
 
     # 使用预处理语句创建表
-    sql = """CREATE TABLE JOKE(JOKE_ID BIGINT primary key AUTO_INCREMENT NOT NULL, JOKE_NET_SITE CHAR(150), JOKE_CONTENT TEXT, JOKE_DATE CHAR(20) ) DEFAULT CHARSET = utf8 """
+    sql = """create table joke(joke_id BIGINT primary key AUTO_INCREMENT NOT NULL, joke_net_site CHAR(150), joke_content TEXT, joke_date CHAR(20) ) DEFAULT CHARSET = utf8 """
 
     try:
         cursor.execute(sql)
@@ -60,7 +60,7 @@ def insert_mysql_data(site, content):
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     # SQL 插入语句
-    sql = """INSERT INTO JOKE(JOKE_NET_SITE,JOKE_CONTENT, JOKE_DATE) VALUES ('%s', '%s', '%s') """
+    sql = """insert into joke(joke_net_site,joke_content, joke_date) VALUES ('%s', '%s', '%s') """
     try:
         # 执行sql语句
         cursor.execute(sql % (site, content, datetime))
@@ -79,7 +79,7 @@ def query_mysql_data():
     joke_list = []
     joke_item = {}
     # SQL 查询语句
-    sql = "SELECT * FROM JOKE"
+    sql = "select * from joke"
     try:
         # 执行SQL语句
         cursor.execute(sql)
@@ -114,7 +114,7 @@ def query_mysql_data_by_num(num):
     joke_list = []
     joke_item = {}
     # SQL 查询语句
-    sql = "select * from joke ORDER BY JOKE_ID * 1 DESC  limit %d"
+    sql = "select * from joke ORDER BY joke_id * 1 DESC  limit %d"
     try:
         # 执行SQL语句
         cursor.execute(sql % num)
@@ -153,7 +153,7 @@ def query_mysql_data_by_date(date):
     joke_list = []
     joke_item = {}
     # SQL 查询语句
-    sql = "SELECT * FROM JOKE WHERE JOKE_DATE > '%s'"
+    sql = "select * from joke where joke_date > '%s'"
     try:
         # 执行SQL语句
         cursor.execute(sql % date)
@@ -192,7 +192,7 @@ def query_joke_data_by_id(end):
     joke_list = []
     joke_item = {}
     # SQL 查询语句
-    sql = "select * from joke WHERE JOKE_ID > %d"
+    sql = "select * from joke where joke_id > %d"
     try:
         # 执行SQL语句
         cursor.execute(sql % end)
@@ -229,7 +229,7 @@ def query_joke_data_by_id(end):
 # 查询笑话数据，返回json字符串
 def query_joke_data_count():
     # SQL 查询语句
-    sql = "select COUNT(*) from joke"
+    sql = "select count(*) from joke"
     try:
         # 执行SQL语句
         cursor.execute(sql)

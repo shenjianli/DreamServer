@@ -1,12 +1,14 @@
-#coding=utf8
+# coding=utf8
 import itchat
 import time
-
+import DreamDB
 import datetime
 import threading
 
+
 def not_empty(s):
     return s and s.strip()
+
 
 # 自动回复
 # 封装好的装饰器，当接收到的消息是Text，即文字消息
@@ -21,36 +23,61 @@ def text_reply(msg):
                          msg['Text']), 'filehelper')
         print("昵称：", msg['User']['NickName'])
         print("内容：", msg['Text'])
+
+        we_chat_msg_content = msg['Text']
+
+        if '_' in we_chat_msg_content:
+            msg_content = we_chat_msg_content.split('_')
+            print(msg_content)
+            if len(msg_content) >= 2:
+                DreamDB.insert_dream_data(msg_content[0], msg_content[1], msg['User']['NickName'])
+                print("梦想名称：", msg_content[0])
+                print("梦想内容：", msg_content[1])
+                return u'[梦想号] 恭喜您，您的梦想放飞成功！'
+        else:
+            return u'[梦想号]您好，请按\"梦想名称_梦想内容\"的格式放飞您的梦想，谢谢您的使用！'
         # 回复给好友
-        return u'[梦想号]您好，您的梦想信息我已经收到'
+        return u'[梦想号]您好，您的梦想信息我已经收到, 稍后小梦将为你服务'
 
 
 # 向微信发送消息
-def notifyWechat(msg,person):
-    print(msg,person)
+def notify_wechat_by_nick_name(msg, nick):
+    print(msg, nick)
+    if nick == "":
+        print("名字为空不进行发送")
+    else:
+        # 想给谁发信息，先查找到这个朋友
+        users = itchat.search_friends(name=nick)
+        # 找到UserName
+        userName = users[0]['UserName']
+        # 然后给他发消息
+        itchat.send(msg, toUserName=userName)
+
+
+
+# 向微信发送消息
+def notifyWechat(msg, person):
+    print(msg, person)
     for p in person:
         if p == "":
             print("名字为空不进行发送")
         else:
             # 想给谁发信息，先查找到这个朋友
-            users = itchat.search_friends(name= p)
+            users = itchat.search_friends(name=p)
             # 找到UserName
             userName = users[0]['UserName']
             # 然后给他发消息
             itchat.send(msg, toUserName=userName)
 
 
-class myThread (threading.Thread):
-
+class myThread(threading.Thread):
     def __init__(self, threadID, name):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
 
     def run(self):
-
         while True:
-
             localtime = time.localtime(time.time())
             # 格式化成2016-03-20 11:45:39形式
             print(time.strftime("%Y-%m-%d %H:%M:%S", localtime))
@@ -63,10 +90,29 @@ class myThread (threading.Thread):
 
             print("现在时间：", s_hour, ":", s_min)
 
+            s_hour = int(input("请输入小时："))
+            s_min = int(input("请输入分钟："))
+
+            # 每半小时通知一次
+            if (s_min == 30 or s_min == 0):
+                notify_wechat_by_nick_name("ssss",'shen')
+            if(s_min == 12):
+                dream_data = DreamDB.query_dream_data_by_id()
+                for row in dream_data:
+                    id = row[0]
+                    name = row[1]
+                    content = row[2]
+                    nick = row[3]
+                    date = row[4]
+                    print(id, name, content, nick, date)
+                    hint_msg = '[梦想号] 您于 ' + date + " 放飞的梦想：\n\"" + content + "\"\n呼唤您----" + "为实现梦想加油，努力！"
+                    # hint_msg = '[梦想号] 您于' + date + "放飞的梦想：" + content + "呼唤您----" + "实现不梦想，不止是三分钟热度"
+                    notify_wechat_by_nick_name(hint_msg, nick)
+            time.sleep(60)
+
+
 
 if __name__ == '__main__':
-
-
     ''''
     
     itchat.auto_login()
@@ -96,7 +142,6 @@ if __name__ == '__main__':
 
     itchat.run()'''
 
-
     itchat.auto_login()
 
     # 获取自己的UserName
@@ -106,12 +151,12 @@ if __name__ == '__main__':
     print("系统开始运行")
 
     # 创建线程
-    # try:
-    #     thread1 = myThread(1, "Thread-1")
-    #     thread1.start()
-    # except:
-    #     print("Error: 无法启动线程")
+    try:
+        thread1 = myThread(1, "Thread-1")
+        thread1.start()
+    except:
+        print("Error: 无法启动线程")
 
     itchat.run()
 
-    #tchat.send(u"系统退出运行", 'filehelper')
+    # tchat.send(u"系统退出运行", 'filehelper')

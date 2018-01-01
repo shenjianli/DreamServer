@@ -1,7 +1,8 @@
 from flask import Flask,request
 import JokeDB
 import json
-
+import DreamDB
+import CoupletDB
 
 app = Flask(__name__)
 
@@ -83,5 +84,21 @@ def update_joke_by_json():
     print(joke_json)
     return joke_json
 
+
+@app.route('/dream/query')
+def query_dream_json():
+    joke = DreamDB.query_dream_data()
+    joke_json = json.dumps(joke, ensure_ascii=False)
+    print(joke_json)
+    return joke_json
+
+@app.route('/couplet/query')
+def query_couplet_json():
+    joke = CoupletDB.query_couplet_data()
+    joke_json = json.dumps(joke, ensure_ascii=False)
+    print(joke_json)
+    return joke_json
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8089)
