@@ -34,7 +34,7 @@ def select_mysql_version():
 
 
 # 创建Joke表
-def create_mysql_table():
+def create_joke_table():
     # 使用 execute() 方法执行 SQL，如果表存在则删除
     cursor.execute("drop table if exists joke")
 
@@ -248,9 +248,9 @@ if __name__ == '__main__':
 
     print("Database mysql : %s " % version)
 
-    create_mysql_table()
+    create_joke_table()
 
-    # insert_mysql_data("www.baidu.com","百度一下，就知道")
+    # insert_mysql_data("http://www.i2finance.net/pc/index.html","艾融软件")
     # joke = query_mysql_data()
     # joke_json = json.dumps(joke,ensure_ascii=False)
     # print(joke_json)

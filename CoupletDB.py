@@ -34,7 +34,7 @@ def select_mysql_version():
     return data
 
 
-# 创建couplet表
+# 创建对联couplet表
 def create_mysql_table():
     # 使用 execute() 方法执行 SQL，如果表存在则删除
     cursor.execute("drop table if exists couplet")
@@ -56,7 +56,7 @@ def close_joke_db():
     db.close
 
 
-# 向数据库中插入
+# 向对联数据库中插入数据
 def insert_couplet_data(title, left, right):
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
@@ -75,7 +75,7 @@ def insert_couplet_data(title, left, right):
         # 关闭数据库连接
 
 
-# 查询梦想数据，返回json字符串
+# 查询对联数据，返回json字符串
 def query_couplet_data():
     list = []
     item = {}
@@ -111,13 +111,12 @@ def query_couplet_data():
         item['code'] = 1
         item['msg'] = '查询成功'
         item['data'] = list
-        item['dreams'] = list
     except:
         print("Error: unable to fetch data")
     return item
 
 
-# 查询笑话数据，返回json字符串
+# 查询数据库中的对联数目
 def query_joke_data_count():
     # SQL 查询语句
     sql = "select count(*) from couplet"
@@ -140,8 +139,10 @@ if __name__ == '__main__':
 
     print("Database mysql : %s " % version)
 
+    # 创建数据表
     create_mysql_table()
 
+    # 插入对联数据
     insert_couplet_data("志在四方", "雄心状志要我将来", "脚踏实地看我今朝")
     insert_couplet_data("奋斗一生", "寻几许阳光放飞梦想", "驾一叶扁舟挥洒青春")
     insert_couplet_data("我最牛逼", "足不出户一台电脑打天下", "宅男在家两只巧手定乾坤")
@@ -160,5 +161,5 @@ if __name__ == '__main__':
     joke_json = json.dumps(joke, ensure_ascii=False)
     print(joke_json)
 
-
+    # 关闭数据库
     close_joke_db()

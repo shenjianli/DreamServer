@@ -19,8 +19,8 @@ def open_db():
     # 使用 cursor() 方法创建一个游标对象 cursor
     cursor = db.cursor()
 
-
-def create_mysql_table():
+# 创建更新历史记录表
+def create_history_table():
     # 使用 execute() 方法执行 SQL，如果表存在则删除
     cursor.execute("drop table if exists jokehistory")
 
@@ -35,12 +35,14 @@ def create_mysql_table():
         print("创建表失败")
 
 
+# 关闭数据库
 def close_joke_db():
     cursor.close()
     db.close
 
 
-def insert_mysql_data(site):
+# 插入更新的历史记录
+def insert_history_data(site):
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
     # SQL 插入语句
@@ -57,7 +59,8 @@ def insert_mysql_data(site):
         print("fail")
 
 
-def query_mysql_data():
+# 查看历史记录
+def query_history_data():
     result = ''
     # SQL 查询语句
     sql = "select * from jokehistory order by history_id desc"
@@ -75,6 +78,7 @@ def query_mysql_data():
     return result
 
 
+# 判断是否存在表结构
 def is_exit_table():
     sql = "select * from information_schema.tables where table_name = '%s'"
     # 执行SQL语句
@@ -89,10 +93,3 @@ def is_exit_table():
 
 if __name__ == '__main__':
     create_mysql_table()
-    # insert_mysql_data("www.baidu.com","百度一下，就知道")
-    # joke = query_mysql_data()
-    # joke_json = json.dumps(joke,ensure_ascii=False)
-    # print(joke_json)
-    # close_joke_db()
-    # insert_mysql_data('/jokehtml/冷笑话/201709082323108.htm')
-    # is_exit_table()

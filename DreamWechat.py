@@ -27,13 +27,38 @@ def text_reply(msg):
         we_chat_msg_content = msg['Text']
 
         if '_' in we_chat_msg_content:
+
             msg_content = we_chat_msg_content.split('_')
             print(msg_content)
+
             if len(msg_content) >= 2:
-                DreamDB.insert_dream_data(msg_content[0], msg_content[1], msg['User']['NickName'])
-                print("梦想名称：", msg_content[0])
-                print("梦想内容：", msg_content[1])
-                return u'[梦想号] 恭喜您，您的梦想放飞成功！'
+                op = msg_content[0]
+                # 放飞梦想
+                if op == 'A' | op == 'a':
+                    if len(msg_content) >= 3:
+                        DreamDB.insert_dream_data(msg_content[1], msg_content[2], msg['User']['NickName'])
+                        print("梦想名称：", msg_content[0])
+                        print("梦想内容：", msg_content[1])
+                        return u'[梦想号] 恭喜您，您的梦想放飞成功！'
+                    else:
+                        return u'[梦想号] 放飞梦想参数有误'
+                # 删除梦想
+                elif op == 'D' | op == 'd':
+                    DreamDB.delete_dream_by_id(msg_content[1])
+                    return u'[梦想号] 您的梦想已经化为泡影'
+                elif op == 'M' | op == 'm':
+                    print("修改梦想")
+                    if len(msg_content) >= 4:
+                        DreamDB.update_dream_by_id(msg_content[1],msg_content[2],msg_content[3])
+                        print("更新成功")
+                elif op == 'Q' | op == 'q':
+                    print("查询梦想")
+                    query_result = DreamDB.query_dream_by_id(msg_content[1])
+                    if len(query_result) != 0:
+                        dream_item = query_result[0]
+                        print("查询到梦想数据为", dream_item[1], dream_item[2])
+                elif op == 'F' | op == 'f':
+                    print("完成梦想")
         else:
             return u'[梦想号]您好，请按\"梦想名称_梦想内容\"的格式放飞您的梦想，谢谢您的使用！'
         # 回复给好友
@@ -52,7 +77,6 @@ def notify_wechat_by_nick_name(msg, nick):
         userName = users[0]['UserName']
         # 然后给他发消息
         itchat.send(msg, toUserName=userName)
-
 
 
 # 向微信发送消息
@@ -95,8 +119,8 @@ class myThread(threading.Thread):
 
             # 每半小时通知一次
             if (s_min == 30 or s_min == 0):
-                notify_wechat_by_nick_name("ssss",'shen')
-            if(s_min == 12):
+                notify_wechat_by_nick_name("ssss", 'shen')
+            if (s_min == 12):
                 dream_data = DreamDB.query_dream_data_by_id()
                 for row in dream_data:
                     id = row[0]
@@ -109,7 +133,6 @@ class myThread(threading.Thread):
                     # hint_msg = '[梦想号] 您于' + date + "放飞的梦想：" + content + "呼唤您----" + "实现不梦想，不止是三分钟热度"
                     notify_wechat_by_nick_name(hint_msg, nick)
             time.sleep(60)
-
 
 
 if __name__ == '__main__':
