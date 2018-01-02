@@ -21,6 +21,7 @@ def text_reply(msg):
                         (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(msg['CreateTime'])),
                          msg['User']['NickName'],
                          msg['Text']), 'filehelper')
+
         print("昵称：", msg['User']['NickName'])
         print("内容：", msg['Text'])
 
@@ -32,33 +33,44 @@ def text_reply(msg):
             print(msg_content)
 
             if len(msg_content) >= 2:
-                op = msg_content[0]
+                op = str(msg_content[0])
                 # 放飞梦想
-                if op == 'A' | op == 'a':
+                if op == 'A' or op == 'a':
                     if len(msg_content) >= 3:
-                        DreamDB.insert_dream_data(msg_content[1], msg_content[2], msg['User']['NickName'])
+                        dream_id = DreamDB.insert_dream_data(msg_content[1], msg_content[2], msg['User']['NickName'])
                         print("梦想名称：", msg_content[0])
                         print("梦想内容：", msg_content[1])
-                        return u'[梦想号] 恭喜您，您的梦想放飞成功！'
+                        return u"[梦想号] 恭喜您，您的梦想放飞成功！\n 您的梦想ID为:%s" % dream_id
                     else:
                         return u'[梦想号] 放飞梦想参数有误'
                 # 删除梦想
-                elif op == 'D' | op == 'd':
-                    DreamDB.delete_dream_by_id(msg_content[1])
-                    return u'[梦想号] 您的梦想已经化为泡影'
-                elif op == 'M' | op == 'm':
+                elif op == 'D' or op == 'd':
+                    if len(msg_content) >= 2:
+                        DreamDB.delete_dream_by_id(msg_content[1])
+                        return u'[梦想号] 您的梦想已经化为泡影！'
+                # 修改梦想
+                elif op == 'M' or op == 'm':
                     print("修改梦想")
                     if len(msg_content) >= 4:
                         DreamDB.update_dream_by_id(msg_content[1],msg_content[2],msg_content[3])
                         print("更新成功")
-                elif op == 'Q' | op == 'q':
+                        return u'[梦想号] 恭喜您，您的梦想信息修改成功！'
+                # 查询梦想
+                elif op == 'Q' or op == 'q':
                     print("查询梦想")
-                    query_result = DreamDB.query_dream_by_id(msg_content[1])
-                    if len(query_result) != 0:
-                        dream_item = query_result[0]
-                        print("查询到梦想数据为", dream_item[1], dream_item[2])
-                elif op == 'F' | op == 'f':
-                    print("完成梦想")
+                    if len(msg_content) >= 2:
+                        query_result = DreamDB.query_dream_by_id(msg_content[1])
+                        if len(query_result) != 0:
+                            dream_item = query_result[0]
+                            print("查询到梦想数据为", dream_item[1], dream_item[2])
+                            return u'[梦想号] 恭喜您，您的梦想信息\n 名称:%s  内容：%s' %(dream_item[1], dream_item[2])
+                # 完成梦想
+                elif op == 'F' or op == 'f':
+                    if len(msg_content) >= 2:
+                        DreamDB.finish_dream_by_id(msg_content[1])
+                        print("完成梦想")
+                        return u'[梦想号] 您真历害，恭喜您，实现了自己梦想！'
+
         else:
             return u'[梦想号]您好，请按\"梦想名称_梦想内容\"的格式放飞您的梦想，谢谢您的使用！'
         # 回复给好友
@@ -128,10 +140,12 @@ class myThread(threading.Thread):
                     content = row[2]
                     nick = row[3]
                     date = row[4]
-                    print(id, name, content, nick, date)
-                    hint_msg = '[梦想号] 您于 ' + date + " 放飞的梦想：\n\"" + content + "\"\n呼唤您----" + "为实现梦想加油，努力！"
-                    # hint_msg = '[梦想号] 您于' + date + "放飞的梦想：" + content + "呼唤您----" + "实现不梦想，不止是三分钟热度"
-                    notify_wechat_by_nick_name(hint_msg, nick)
+                    finish = row[5]
+                    if finish == '':
+                        print(id, name, content, nick, date)
+                        hint_msg = '[梦想号] 您于 ' + date + " 放飞的梦想：\n\"" + content + "\"\n呼唤您----" + "为实现梦想加油，努力！"
+                        # hint_msg = '[梦想号] 您于' + date + "放飞的梦想：" + content + "呼唤您----" + "实现不梦想，不止是三分钟热度"
+                        notify_wechat_by_nick_name(hint_msg, nick)
             time.sleep(60)
 
 

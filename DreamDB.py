@@ -3,7 +3,7 @@
 import time
 import pymysql
 import json
-
+import IDGenerator
 
 # 打开数据库连接
 db = pymysql.connect("localhost", "root", "cqtddt@2016", "dream")
@@ -41,7 +41,7 @@ def create_dream_table():
     cursor.execute("drop table if exists dream")
 
     # 使用预处理语句创建表
-    sql = """create table dream(dream_id BIGINT primary key AUTO_INCREMENT NOT NULL, dream_name CHAR(150), dream_content TEXT, we_chat_name char(50), dream_date CHAR(20), dream_finish_date CHAR(20)) DEFAULT CHARSET = utf8 """
+    sql = """create table dream(dream_id BIGINT primary key AUTO_INCREMENT NOT NULL, dream_name CHAR(150), dream_content TEXT, we_chat_name char(50), dream_date CHAR(20), dream_finish_date CHAR(20),dream_uuid char(20)) DEFAULT CHARSET = utf8 """
 
     try:
         cursor.execute(sql)
@@ -61,12 +61,13 @@ def close_joke_db():
 def insert_dream_data(dream_name, dream_content, we_chat_name):
 
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-
+    dream_uuid = IDGenerator.get_dream_id();
+    dream_finish_date = ''
     # SQL 插入语句
-    sql = """insert into dream(dream_name,dream_content,we_chat_name ,dream_date) VALUES ('%s', '%s', '%s', '%s') """
+    sql = """insert into dream(dream_name,dream_content,we_chat_name ,dream_date,dream_finish_date,dream_uuid) VALUES ('%s', '%s', '%s', '%s','%s', '%s') """
     try:
         # 执行sql语句
-        result = cursor.execute(sql % (dream_name, dream_content, we_chat_name, datetime))
+        result = cursor.execute(sql % (dream_name, dream_content, we_chat_name, datetime, dream_finish_date, dream_uuid))
         # 提交到数据库执行
         db.commit()
         print("[梦想号]-", dream_content,  "-梦想插入成功")
@@ -75,13 +76,15 @@ def insert_dream_data(dream_name, dream_content, we_chat_name):
         # 如果发生错误则回滚
         db.rinsert_dream_dataollback()
         print("fail")
+        return ''
+    return dream_uuid
 
 
 # 根据 id 删除指定梦想
 def delete_dream_by_id(dream_id):
     # SQL 查询语句
     # 删除记录
-    sql = "delete from dream where dream_id = '%d'"
+    sql = "delete from dream where dream_uuid = '%s'"
 
     try:
         # 执行SQL语句
@@ -93,17 +96,18 @@ def delete_dream_by_id(dream_id):
         print("Error: unable to fetch data")
 
 
-# 根据 id 更新指定梦想
-def update_dream_by_id(dream_id, dream_name, dream_content):
-    # SQL 查询语句
-    # 删除记录
-    sql = "update dream set dream_name = '%s', dream_content = '%s' where dream_id = '%d'"
+# 根据 id 完成指定梦想
+def finish_dream_by_id(dream_id):
+
+    datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
+    sql = "update dream set dream_finish_date = '%s' where dream_uuid = '%s'"
 
     try:
         # 执行SQL语句
-        cursor.execute(sql % (dream_name, dream_content, dream_id))
+        cursor.execute(sql % (datetime, dream_id))
         db.commit()
-        print("[梦想号]", dream_id, "修改成功")
+        print("[梦想号]", dream_id, "梦想完成成功")
     except:
         db.rollback()
         print("Error: unable to fetch data")
@@ -113,7 +117,7 @@ def update_dream_by_id(dream_id, dream_name, dream_content):
 def update_dream_by_id(dream_id, dream_name, dream_content):
     # SQL 查询语句
     # 删除记录
-    sql = "update dream set dream_name = '%s', dream_content = '%s' where dream_id = '%d'"
+    sql = "update dream set dream_name = '%s', dream_content = '%s' where dream_uuid = '%s'"
 
     try:
         # 执行SQL语句
@@ -128,7 +132,7 @@ def update_dream_by_id(dream_id, dream_name, dream_content):
 # 根据梦想号查询梦想数据，返回json字符串
 def query_dream_by_id(dream_id):
     # SQL 查询语句
-    sql = "select * from dream where dream_id = %s"
+    sql = "select * from dream where dream_uuid = '%s'"
     try:
         # 执行SQL语句
         cursor.execute(sql % dream_id)
@@ -181,7 +185,7 @@ def query_dream_data():
     return item
 
 
-# 查询梦想数据，返回json字符串
+# 查询梦想数据
 def query_dream_data_by_id():
     sql = "select * from dream order BY dream_id * 1 asc"
     try:
@@ -211,15 +215,16 @@ def query_joke_data_count():
     # joke_item['jokes'] = joke_list
     return count
 
+
 # 主方法
 if __name__ == '__main__':
     version = select_mysql_version()
 
     print("Database mysql : %s " % version)
 
-    #create_dream_table()
+    create_dream_table()
 
-    #insert_dream_data("2018找个好老婆", "希望自己在2018年，可以找个好老婆", "Jerry")
+    insert_dream_data("2018找个好老婆", "希望自己在2018年，可以找个好老婆", "Jerry")
     #
     # joke = query_dream_data()
     # joke_json = json.dumps(joke, ensure_ascii=False)
@@ -227,11 +232,15 @@ if __name__ == '__main__':
 
     #delete_dream_by_id(1)
 
-    update_dream_by_id(2,"111111","222222222")
+    # update_dream_by_id(2, "111111", "222222222")
 
-    result = query_dream_by_id(2)
+    result = query_dream_data_by_id()
     if len(result) != 0:
         for row in result:
             print(row[0], row[1], row[2], row[3])
+            if row[5] == '':
+                print("空")
+            else:
+                print(row[5])
 
     close_joke_db()
