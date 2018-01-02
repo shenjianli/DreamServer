@@ -2,9 +2,10 @@
 # -*- coding:utf-8 -*-
 import time
 import pymysql
+import Config
 
 # 打开数据库连接
-db = pymysql.connect("localhost", "root", "cqtddt@2016", "dream")
+db = pymysql.connect(Config.mysql_net_site, Config.mysql_user, Config.mysql_pass, Config.mysql_db)
 db.set_charset('utf8')
 # 使用 cursor() 方法创建一个游标对象 cursor
 cursor = db.cursor()
@@ -14,10 +15,11 @@ cursor = db.cursor()
 def open_db():
     global db, cursor
     # 打开数据库连接
-    db = pymysql.connect("localhost", "root", "cqtddt@2016", "dream")
+    db = pymysql.connect(Config.mysql_net_site, Config.mysql_user, Config.mysql_pass, Config.mysql_db)
     db.set_charset('utf8')
     # 使用 cursor() 方法创建一个游标对象 cursor
     cursor = db.cursor()
+
 
 # 创建更新历史记录表
 def create_history_table():
