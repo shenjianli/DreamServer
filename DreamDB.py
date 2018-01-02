@@ -61,28 +61,28 @@ def close_joke_db():
 def insert_dream_data(dream_name, dream_content, we_chat_name):
 
     datetime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    dream_uuid = IDGenerator.get_dream_id();
+    dream_uuid = IDGenerator.get_dream_id()
     dream_finish_date = ''
+
     # SQL 插入语句
     sql = """insert into dream(dream_name,dream_content,we_chat_name ,dream_date,dream_finish_date,dream_uuid) VALUES ('%s', '%s', '%s', '%s','%s', '%s') """
     try:
         # 执行sql语句
-        result = cursor.execute(sql % (dream_name, dream_content, we_chat_name, datetime, dream_finish_date, dream_uuid))
+        cursor.execute(sql % (dream_name, dream_content, we_chat_name, datetime, dream_finish_date, dream_uuid))
         # 提交到数据库执行
         db.commit()
-        print("[梦想号]-", dream_content,  "-梦想插入成功")
-        print(result)
+        print("[梦想号] ", dream_name,  " 梦想插入成功")
+        return dream_uuid
     except Exception:
         # 如果发生错误则回滚
         db.rinsert_dream_dataollback()
-        print("fail")
+        print("[梦想号] 梦想插入失败")
         return ''
     return dream_uuid
 
 
 # 根据 id 删除指定梦想
 def delete_dream_by_id(dream_id):
-    # SQL 查询语句
     # 删除记录
     sql = "delete from dream where dream_uuid = '%s'"
 
@@ -91,9 +91,11 @@ def delete_dream_by_id(dream_id):
         cursor.execute(sql % dream_id)
         db.commit()
         print("[梦想号]", dream_id, "删除成功")
+        return '1'
     except:
         db.rollback()
         print("Error: unable to fetch data")
+        return ''
 
 
 # 根据 id 完成指定梦想
@@ -108,15 +110,16 @@ def finish_dream_by_id(dream_id):
         cursor.execute(sql % (datetime, dream_id))
         db.commit()
         print("[梦想号]", dream_id, "梦想完成成功")
+        return '1'
     except:
         db.rollback()
         print("Error: unable to fetch data")
+        return ''
 
 
 # 根据 id 更新指定梦想
 def update_dream_by_id(dream_id, dream_name, dream_content):
     # SQL 查询语句
-    # 删除记录
     sql = "update dream set dream_name = '%s', dream_content = '%s' where dream_uuid = '%s'"
 
     try:
@@ -124,9 +127,11 @@ def update_dream_by_id(dream_id, dream_name, dream_content):
         cursor.execute(sql % (dream_name, dream_content, dream_id))
         db.commit()
         print("[梦想号]", dream_id, "修改成功")
+        return '1'
     except:
         db.rollback()
         print("Error: unable to fetch data")
+        return ''
 
 
 # 根据梦想号查询梦想数据，返回json字符串
