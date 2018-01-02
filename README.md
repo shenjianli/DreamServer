@@ -1,33 +1,32 @@
 # DreamServer
 
 ## 命令使用
-
-### 放飞梦想
+### 1.放飞梦想
 A_梦想名_梦想内容
-
-### 删除梦想
+### 2.删除梦想
 D_梦想ID
-
-### 修改梦想
+### 3.修改梦想
 M_梦想ID_梦想名_梦想内容
-
-### 查询梦想
+### 4.查询梦想
 Q_梦想ID
-
-### 完成梦想
+### 5.实现梦想
 F_梦想ID
 
 ## 运行
-
 ### 1.安装mysql数据库
-
+安装mysql具体方法，请自行安装
 ### 2.配置mysql数据库
 #### 2.1 创建数据库
-使用命令 create database dream
+使用命令
+```
+create database dream;
+```
 #### 2.2 配置数据库
 打开Config.py文件内容如下
 
 ```
+# 梦想号相关配置
+
 # 表示是否为测试模式
 isDebug = True
 
@@ -40,15 +39,24 @@ mysql_pass = 'cqtddt@2016'
 # mysql数据库名
 mysql_db = 'dream'
 
+
+# 服务器端口
+dream_server_port = 8085
+# 服务器地址
+dream_server_site = '0.0.0.0'
+
 # 表示梦想号每天提示时间点
 dream_hint_hour = 8
 dream_hint_min = 30
 ```
-进行相对应的配置即可
+进行对应的配置即可
 
 #### 2.3 创建数据表
-执行DreamDB.py来创建数据表
-可以使用命令 python DreamDB.py 来生成数据表
+可以使用命令
+```
+python DreamDB.py
+```
+来生成数据表
 
 ### 运行梦想号
 使用命令
@@ -73,7 +81,7 @@ Start auto replying.
 ### 1.启动服务
 通过命令
 ```
-python FlaskServer.py
+python DreamServer.py
 ```
 来启动服务提供通过url来文访问json字符串
 ### 2.使用服务
@@ -87,7 +95,54 @@ python FlaskServer.py
 {"id": 4, "name": "找个好老婆", "content": "希望自己可以在2018年找到一个好老婆", "nick": "JerryShen", "date": "2018-01-02 13:40:33"}]}
 ```
 
-
+## 数据表结构
+对联表（couplet）结构：
+```
++---------------+------------+------+-----+---------+----------------+
+| Field         | Type       | Null | Key | Default | Extra          |
++---------------+------------+------+-----+---------+----------------+
+| couplet_id    | bigint(20) | NO   | PRI | NULL    | auto_increment |
+| couplet_title | char(150)  | YES  |     | NULL    |                |
+| couplet_left  | text       | YES  |     | NULL    |                |
+| couplet_right | text       | YES  |     | NULL    |                |
+| couplet_date  | char(20)   | YES  |     | NULL    |                |
++---------------+------------+------+-----+---------+----------------+
+```
+梦想表（dream）结构：
+```
++-------------------+------------+------+-----+---------+----------------+
+| Field             | Type       | Null | Key | Default | Extra          |
++-------------------+------------+------+-----+---------+----------------+
+| dream_id          | bigint(20) | NO   | PRI | NULL    | auto_increment |
+| dream_name        | char(150)  | YES  |     | NULL    |                |
+| dream_content     | text       | YES  |     | NULL    |                |
+| we_chat_name      | char(50)   | YES  |     | NULL    |                |
+| dream_date        | char(20)   | YES  |     | NULL    |                |
+| dream_finish_date | char(20)   | YES  |     | NULL    |                |
+| dream_uuid        | char(20)   | YES  |     | NULL    |                |
++-------------------+------------+------+-----+---------+----------------+
+```
+笑话表（joke）结构：
+```
++---------------+------------+------+-----+---------+----------------+
+| Field         | Type       | Null | Key | Default | Extra          |
++---------------+------------+------+-----+---------+----------------+
+| joke_id       | bigint(20) | NO   | PRI | NULL    | auto_increment |
+| joke_net_site | char(150)  | YES  |     | NULL    |                |
+| joke_content  | text       | YES  |     | NULL    |                |
+| joke_date     | char(20)   | YES  |     | NULL    |                |
++---------------+------------+------+-----+---------+----------------+
+```
+笑话更新历史表（jokehistory）结构：
+```
++------------------+------------+------+-----+---------+----------------+
+| Field            | Type       | Null | Key | Default | Extra          |
++------------------+------------+------+-----+---------+----------------+
+| history_id       | bigint(20) | NO   | PRI | NULL    | auto_increment |
+| history_net_site | char(150)  | YES  |     | NULL    |                |
+| history_date     | char(20)   | YES  |     | NULL    |                |
++------------------+------------+------+-----+---------+----------------+
+```
 ## 更新日志
 
 2018.01.02

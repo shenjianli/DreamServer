@@ -3,6 +3,7 @@ import JokeDB
 import json
 import DreamDB
 import CoupletDB
+import Config
 
 app = Flask(__name__)
 
@@ -100,4 +101,4 @@ def query_couplet_json():
 # 主方法
 if __name__ == '__main__':
     # 表示主机地址与端口号
-    app.run(host='0.0.0.0', port=8085)
+    app.run(host=Config.dream_server_site, port=Config.dream_server_port)

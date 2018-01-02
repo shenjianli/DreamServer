@@ -13,6 +13,11 @@ mysql_pass = 'cqtddt@2016'
 mysql_db = 'dream'
 
 
+# 服务器端口
+dream_server_port = 8085
+# 服务器地址
+dream_server_site = '0.0.0.0'
+
 # 表示梦想号每天提示时间点
 dream_hint_hour = 8
 dream_hint_min = 30
