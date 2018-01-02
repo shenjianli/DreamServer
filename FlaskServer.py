@@ -6,10 +6,11 @@ import CoupletDB
 
 app = Flask(__name__)
 
+
 # 根url显示返回的信息
 @app.route('/')
 def hello_world():
-    return '梦想号为您竭诚服务'
+    return '欢迎搭乘梦想号，我们将竭诚为您服务！'
 
 
 @app.route('/user/<username>')
@@ -27,6 +28,7 @@ def show_post(post_id):
 @app.route('/projects/')
 def projects():
     return 'The project page'
+
 
 # 查询所有笑话数据
 @app.route('/joke/query')
@@ -98,4 +100,4 @@ def query_couplet_json():
 # 主方法
 if __name__ == '__main__':
     # 表示主机地址与端口号
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8085)

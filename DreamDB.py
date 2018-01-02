@@ -2,11 +2,14 @@
 # -*- coding:utf-8 -*-
 import time
 import pymysql
-import json
 import IDGenerator
+import Config
+import CoupletDB
+import JokeDB
+import UpdateDB
 
 # 打开数据库连接
-db = pymysql.connect("localhost", "root", "cqtddt@2016", "dream")
+db = pymysql.connect(Config.mysql_net_site, Config.mysql_user, Config.mysql_pass, Config.mysql_db)
 db.set_charset('utf8')
 # 使用 cursor() 方法创建一个游标对象 cursor
 cursor = db.cursor()
@@ -16,7 +19,7 @@ cursor = db.cursor()
 def open_db():
     global db, cursor
     # 打开数据库连接
-    db = pymysql.connect("localhost", "root", "cqtddt@2016", "dream")
+    db = pymysql.connect(Config.mysql_net_site, Config.mysql_user, Config.mysql_pass, Config.mysql_db)
     db.set_charset('utf8')
     # 使用 cursor() 方法创建一个游标对象 cursor
     cursor = db.cursor()
@@ -184,7 +187,6 @@ def query_dream_data():
         item['code'] = 1
         item['msg'] = '查询成功'
         item['data'] = list
-        item['dreams'] = list
     except:
         print("Error: unable to fetch data")
     return item
@@ -227,9 +229,14 @@ if __name__ == '__main__':
 
     print("Database mysql : %s " % version)
 
+    # 创建梦想号使用的数据表
     create_dream_table()
+    CoupletDB.create_mysql_table()
+    JokeDB.create_joke_table()
+    UpdateDB.create_history_table()
 
-    insert_dream_data("2018找个好老婆", "希望自己在2018年，可以找个好老婆", "Jerry")
+
+    # insert_dream_data("2018找个好老婆", "希望自己在2018年，可以找个好老婆", "Jerry")
     #
     # joke = query_dream_data()
     # joke_json = json.dumps(joke, ensure_ascii=False)
@@ -248,4 +255,4 @@ if __name__ == '__main__':
     #         else:
     #             print(row[5])
 
-    close_joke_db()
+    #close_joke_db()
