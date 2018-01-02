@@ -239,13 +239,13 @@ if __name__ == '__main__':
 
     # update_dream_by_id(2, "111111", "222222222")
 
-    result = query_dream_data_by_id()
-    if len(result) != 0:
-        for row in result:
-            print(row[0], row[1], row[2], row[3])
-            if row[5] == '':
-                print("空")
-            else:
-                print(row[5])
+    # result = query_dream_data_by_id()
+    # if len(result) != 0:
+    #     for row in result:
+    #         print(row[0], row[1], row[2], row[3])
+    #         if row[5] == '':
+    #             print("空")
+    #         else:
+    #             print(row[5])
 
     close_joke_db()

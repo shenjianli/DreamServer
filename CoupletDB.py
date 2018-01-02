@@ -156,10 +156,10 @@ if __name__ == '__main__':
     insert_couplet_data("风调码顺", "上拜图灵只佑服务可用", "下跪关公但求永不宕机")
     insert_couplet_data("码到成功", "废寝忘食编程序", "闻机起早保运维")
 
-    joke = query_couplet_data()
+    # joke = query_couplet_data()
 
-    joke_json = json.dumps(joke, ensure_ascii=False)
-    print(joke_json)
+    # joke_json = json.dumps(joke, ensure_ascii=False)
+    # print(joke_json)
 
     # 关闭数据库
     close_joke_db()
