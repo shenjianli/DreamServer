@@ -154,4 +154,14 @@ python DreamServer.py
 
 ## 问题
 提示信息的多样化处理
+微信名称特殊符号无法通知消息
+昵称： 💎 马超 17600132785 💎
+内容： A_梦想_旅游
+['A', '梦想', '旅游']
+生成的唯一ID1VBcv6ijdL
+/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/pymysql/cursors.py:166: Warning: (1300, "Invalid utf8 character string: 'F09F92'")
+  result = self._query(query)
+/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/pymysql/cursors.py:166: Warning: (1366, "Incorrect string value: '\\xF0\\x9F\\x92\\x8E \\xE9...' for column 'we_chat_name' at row 1")
+  result = self._query(query)
+
 

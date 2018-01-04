@@ -1,4 +1,4 @@
-from flask import Flask,request
+from flask import Flask, request
 import JokeDB
 import json
 import DreamDB
@@ -98,7 +98,43 @@ def query_couplet_json():
     return joke_json
 
 
+# 根据请求增加梦想
+@app.route('/add/dream')
+def add_dream():
+
+    result_str = ''
+    result_code = 0
+    result_msg = '查询成功'
+    name = request.args.get('name')
+    content = request.args.get('content')
+    nick = request.args.get('nick')
+    print("增加梦想接口收到数据：", name, content,nick)
+    if name == '' or content == '' or name is None or content is None:
+        result_msg = '梦想名或梦想内容不能为空'
+    elif nick != '' and nick is not None:
+        dream_id = DreamDB.insert_dream_data(name, content, nick)
+        if dream_id != '' and dream_id is not None:
+            result_msg = '加入梦想成功'
+            result_str = dream_id
+            result_code = 1
+            print('加入梦想成功')
+
+    else:
+        result_msg = '昵称不能为空'
+
+    result = {}
+
+    result['code'] = result_code
+    result['msg'] = result_msg
+    result['data'] = result_str
+
+    joke_json = json.dumps(result, ensure_ascii=False)
+    print(joke_json)
+    return joke_json
+
+
 # 主方法
 if __name__ == '__main__':
+    #app.config['SERVER_NAME'] = 'i2finance.dream.com'
     # 表示主机地址与端口号
     app.run(host=Config.dream_server_site, port=Config.dream_server_port)

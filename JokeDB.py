@@ -137,7 +137,7 @@ def query_mysql_data_by_num(num):
             print("id=%d,site=%s,content=%s,date=%s" % (joke_id, joke_site, joke_content, joke_date))
         joke_item['code'] = 1
         joke_item['msg'] = '查询成功'
-        joke_item['data'] = joke_list;
+        joke_item['data'] = joke_list
     # joke_item['jokes'] = joke_list
     except:
         print("Error: unable to fetch data")
