@@ -110,9 +110,10 @@ def text_reply(msg):
 # 向微信发送消息
 def notify_wechat_by_nick_name(msg, nick):
     print(msg, nick)
-    if nick == "":
+    if nick == "" or nick is None:
         print("名字为空不进行发送")
     else:
+        print('发消息给：' + nick)
         # 想给谁发信息，先查找到这个朋友
         users = itchat.search_friends(name=nick)
         # 找到UserName
@@ -184,7 +185,7 @@ class DreamNoitfyThread(threading.Thread):
                         date = row[4]
                         finish = row[5]
 
-                        if finish == '':
+                        if finish == '' or finish is None:
                             print(id, name, content, nick, date)
                             hint_msg = '[梦想号] 您于 ' + date + " 放飞的梦想：\n\"" + content + "\"\n呼唤您----" + "为实现它努力，加油！"
                             # hint_msg = '[梦想号] 您于' + date + "放飞的梦想：" + content + "呼唤您----" + "实现不梦想，不止是三分钟热度"

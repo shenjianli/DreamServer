@@ -104,7 +104,7 @@ def add_dream():
 
     result_str = ''
     result_code = 0
-    result_msg = '查询成功'
+    result_msg = '放飞梦想成功'
     name = request.args.get('name')
     content = request.args.get('content')
     nick = request.args.get('nick')
