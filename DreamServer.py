@@ -3,6 +3,7 @@ import JokeDB
 import json
 import DreamDB
 import CoupletDB
+import DreamCommentDB
 import Config
 
 app = Flask(__name__)
@@ -132,6 +133,41 @@ def add_dream():
 
     joke_json = json.dumps(result, ensure_ascii=False)
     print(joke_json)
+    return joke_json
+
+
+# 根据请求加油梦想
+@app.route('/commit/comment')
+def add_dream():
+
+    result_str = ''
+    result_code = 0
+    result_msg = '为梦想加油成功'
+
+    id = request.args.get('id')
+    comment = request.args.get('comment')
+
+    print("加油梦想接口收到数据：", id, comment)
+
+    if id == '' or comment == '' or id is None or comment is None:
+        result_msg = '梦想id或加油内容不能为空'
+    else:
+        result = DreamCommentDB.insert_comment_data(id, comment)
+        if result != '' and result is not None:
+            result_msg = '加入梦想成功'
+            result_str = result_msg
+            result_code = 1
+            print('加入梦想成功')
+
+    result = {}
+
+    result['code'] = result_code
+    result['msg'] = result_msg
+    result['data'] = result_str
+
+    joke_json = json.dumps(result, ensure_ascii=False)
+    print(joke_json)
+
     return joke_json
 
 

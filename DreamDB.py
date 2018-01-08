@@ -44,7 +44,9 @@ def create_dream_table():
     cursor.execute("drop table if exists dream")
 
     # 使用预处理语句创建表
-    sql = """create table dream(dream_id BIGINT primary key AUTO_INCREMENT NOT NULL, dream_name CHAR(150), dream_content TEXT, we_chat_name char(50), dream_date CHAR(20), dream_finish_date CHAR(20),dream_uuid char(20)) DEFAULT CHARSET = utf8 """
+    sql = """create table dream(dream_id BIGINT primary key AUTO_INCREMENT NOT NULL, dream_name CHAR(150), 
+    dream_content TEXT, we_chat_name char(50), dream_date CHAR(20), dream_finish_date CHAR(20),
+    dream_uuid char(20), dream_praise bigint default 0) DEFAULT CHARSET = utf8 """
 
     try:
         cursor.execute(sql)
@@ -208,7 +210,7 @@ def query_dream_data_by_id():
 
 
 # 查询梦想数据个数
-def query_joke_data_count():
+def query_dream_data_count():
     # SQL 查询语句
     sql = "select count(*) from dream"
     try:
@@ -223,6 +225,42 @@ def query_joke_data_count():
     return count
 
 
+# 根据梦想号查询梦想数据，返回json字符串
+def query_dream_praise_by_id(dream_id):
+    # SQL 查询语句
+    sql = "select * from dream where dream_id = '%s'"
+    try:
+        # 执行SQL语句
+        cursor.execute(sql % dream_id)
+        # 获取所有记录列表
+        results = cursor.fetchall()
+    except:
+        print("Error: unable to fetch data")
+    return results
+
+
+# 更新梦想点赞数
+def update_dream_praise_count(dream_id):
+
+    query_result = query_dream_praise_by_id(dream_id)
+
+    if query_result is None:
+        praise_num = query_result[7] + 1
+        # SQL 查询语句
+        sql = "update dream set dream_praise = '%d' where dream_id = '%s'"
+        try:
+            # 执行SQL语句
+            cursor.execute(sql % (praise_num, dream_id))
+            db.commit()
+            print("[梦想号]", dream_id, "修改成功")
+            return '1'
+        except:
+            db.rollback()
+            print("Error: unable to fetch data")
+            return ''
+        return count
+
+
 # 主方法
 if __name__ == '__main__':
     version = select_mysql_version()
@@ -230,13 +268,13 @@ if __name__ == '__main__':
     print("Database mysql : %s " % version)
 
     # 创建梦想号使用的数据表
-    create_dream_table()
-    CoupletDB.create_mysql_table()
-    JokeDB.create_joke_table()
-    UpdateDB.create_history_table()
+    # create_dream_table()
+    # CoupletDB.create_mysql_table()
+    # JokeDB.create_joke_table()
+    # UpdateDB.create_history_table()
 
 
-    # insert_dream_data("2018找个好老婆", "希望自己在2018年，可以找个好老婆", "Jerry")
+    insert_dream_data("2018找个好老婆", "希望自己在2018年，可以找个好老婆", "JerryShen")
     #
     # joke = query_dream_data()
     # joke_json = json.dumps(joke, ensure_ascii=False)
