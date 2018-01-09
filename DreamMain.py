@@ -43,7 +43,7 @@ def text_reply(msg):
                 # 放飞梦想
                 if op == 'A' or op == 'a':
                     if len(msg_content) >= 3:
-                        dream_id = DreamDB.insert_dream_data(msg_content[1], msg_content[2], msg['User']['NickName'])
+                        dream_id = DreamDB.insert_dream_data(msg_content[1], msg_content[2], msg['User']['NickName'], '')
                         if dream_id != '':
                             print("梦想名称：", msg_content[0])
                             print("梦想内容：", msg_content[1])
@@ -80,7 +80,7 @@ def text_reply(msg):
                         if len(query_result) != 0:
                             dream_item = query_result[0]
                             print("查询到梦想数据为", dream_item[1], dream_item[2])
-                            return u'[梦想号] 恭喜您，您的梦想信息为：\n名称:%s\n内容：%s' % (dream_item[1], dream_item[2])
+                            return u'[梦想号] 恭喜您，您的梦想信息为：\n名称：%s\n内容：%s' % (dream_item[1], dream_item[2])
                         else:
                             return server_hint
                     else:

@@ -84,19 +84,21 @@ def update_joke_by_json():
 # 根据url查询梦想数据，返回json字符串
 @app.route('/dream/query')
 def query_dream_json():
-    joke = DreamDB.query_dream_data()
-    joke_json = json.dumps(joke, ensure_ascii=False)
-    print(joke_json)
-    return joke_json
+
+    dream = DreamDB.query_dream_data()
+    dream_json = json.dumps(dream, ensure_ascii=False)
+
+    print(dream_json)
+    return dream_json
 
 
 # 根据url查询对联返回json字符串
 @app.route('/couplet/query')
 def query_couplet_json():
-    joke = CoupletDB.query_couplet_data()
-    joke_json = json.dumps(joke, ensure_ascii=False)
-    print(joke_json)
-    return joke_json
+    couplet = CoupletDB.query_couplet_data()
+    couplet_json = json.dumps(couplet, ensure_ascii=False)
+    print(couplet_json)
+    return couplet_json
 
 
 # 根据请求增加梦想
@@ -105,17 +107,19 @@ def add_dream():
 
     result_str = ''
     result_code = 0
-    result_msg = '放飞梦想成功'
+    result_msg = '放飞梦想失败'
+
     name = request.args.get('name')
     content = request.args.get('content')
     nick = request.args.get('nick')
     device = request.args.get('device')
 
     print("增加梦想接口收到数据：", name, content, nick, device)
+
     if name == '' or content == '' or name is None or content is None:
         result_msg = '梦想名或梦想内容不能为空'
     elif nick != '' and nick is not None:
-        dream_id = DreamDB.insert_dream_data(name, content, nick)
+        dream_id = DreamDB.insert_dream_data(name, content, nick, device)
         if dream_id != '' and dream_id is not None:
             result_msg = '加入梦想成功'
             result_str = dream_id
@@ -131,44 +135,104 @@ def add_dream():
     result['msg'] = result_msg
     result['data'] = result_str
 
-    joke_json = json.dumps(result, ensure_ascii=False)
-    print(joke_json)
-    return joke_json
+    dream_json = json.dumps(result, ensure_ascii=False)
+    print(dream_json)
+    return dream_json
 
 
 # 根据请求加油梦想
 @app.route('/commit/comment')
-def add_dream():
+def commit_dream_comment():
 
     result_str = ''
     result_code = 0
-    result_msg = '为梦想加油成功'
+    result_msg = '为梦想加油失败'
 
-    id = request.args.get('id')
+    dream_id = request.args.get('id')
     comment = request.args.get('comment')
 
-    print("加油梦想接口收到数据：", id, comment)
+    print("加油梦想接口收到数据：", dream_id, comment)
 
-    if id == '' or comment == '' or id is None or comment is None:
+    if dream_id == '' or comment == '' or dream_id is None or comment is None:
         result_msg = '梦想id或加油内容不能为空'
     else:
-        result = DreamCommentDB.insert_comment_data(id, comment)
+        result = DreamCommentDB.insert_comment_data(dream_id, comment)
         if result != '' and result is not None:
-            result_msg = '加入梦想成功'
+            result_msg = '为梦想加油成功'
             result_str = result_msg
             result_code = 1
-            print('加入梦想成功')
+            print('为梦想加油成功')
 
-    result = {}
+    result_item = {}
 
-    result['code'] = result_code
-    result['msg'] = result_msg
-    result['data'] = result_str
+    result_item['code'] = result_code
+    result_item['msg'] = result_msg
+    result_item['data'] = result_str
 
-    joke_json = json.dumps(result, ensure_ascii=False)
-    print(joke_json)
+    comment_json = json.dumps(result_item, ensure_ascii=False)
+    print(comment_json)
 
-    return joke_json
+    return comment_json
+
+
+# 查询加油梦想评论数据
+@app.route('/query/comment')
+def query_dream_comment():
+
+    dream_id = request.args.get('id')
+
+    comment = DreamCommentDB.query_comment_data(dream_id)
+
+    comment_json = json.dumps(comment, ensure_ascii=False)
+    print(comment_json)
+
+    return comment_json
+
+
+# 查询加油梦想评论数据
+@app.route('/query/my/dream')
+def query_my_dream():
+
+    device = request.args.get('device')
+
+    my_dream = DreamDB.query_my_dream_data(device)
+
+    my_dream_json = json.dumps(my_dream, ensure_ascii=False)
+
+    print(my_dream_json)
+
+    return my_dream_json
+
+
+# 为梦想点赞
+@app.route('/commit/dream/praise')
+def commit_dream_praise():
+
+    result_str = '为梦想点赞失败'
+    result_code = 0
+    result_msg = '为梦想点赞失败'
+
+    dream_id = request.args.get('id')
+
+    if '' == dream_id or dream_id is None:
+        result_msg = '梦想id不能为空'
+    else:
+        result = DreamDB.update_dream_praise_count(dream_id)
+        if '' != result and result is not None:
+            result_msg = '梦想点赞成功'
+            result_str = result_msg
+            result_code = 1
+            print('梦想点赞成功')
+
+    result_item = {}
+    result_item['code'] = result_code
+    result_item['msg'] = result_msg
+    result_item['data'] = result_str
+
+    praise_json = json.dumps(result_item, ensure_ascii=False)
+    print(praise_json)
+
+    return praise_json
 
 
 # 主方法

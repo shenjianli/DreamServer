@@ -73,24 +73,35 @@ def insert_comment_data(dream_id, comment_content):
 def query_comment_data(dream_id):
     list = []
     item = {}
-    # SQL 查询语句
-    sql = "select * from comment where dream_id = '%s'"
-    try:
-        # 执行SQL语句
-        cursor.execute(sql % dream_id)
-        # 获取所有记录列表
-        results = cursor.fetchall()
 
-        for row in results:
-            list.append(row[2])
-            # 打印结果
-            print("id=%d,comment=%s" % (dream_id, row[2]))
+    item['code'] = 0
+    item['msg'] = '查询失败'
+    item['data'] = list
 
-        item['code'] = 1
-        item['msg'] = '查询成功'
+    if dream_id == '' or dream_id is None:
+        item['code'] = 0
+        item['msg'] = '梦想id不能为空'
         item['data'] = list
-    except:
-        print("Error: unable to fetch data")
+    else:
+        # SQL 查询语句
+        sql = "select * from comment where dream_id = '%s'"
+        try:
+            # 执行SQL语句
+            cursor.execute(sql % dream_id)
+            # 获取所有记录列表
+            results = cursor.fetchall()
+
+            for row in results:
+                list.append(row[2])
+                # 打印结果
+                print("id=%s,comment=%s" % (dream_id, row[2]))
+
+            item['code'] = 1
+            item['msg'] = '查询成功'
+            item['data'] = list
+        except:
+            db.rollback()
+            print("查询梦想加油数据失败")
     return item
 
 
