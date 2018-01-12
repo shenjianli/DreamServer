@@ -42,16 +42,7 @@ def text_reply(msg):
                 op = str(msg_content[0])
                 # 放飞梦想
                 if op == 'A' or op == 'a':
-                    if len(msg_content) >= 3:
-                        dream_id = DreamDB.insert_dream_data(msg_content[1], msg_content[2], msg['User']['NickName'], '')
-                        if dream_id != '':
-                            print("梦想名称：", msg_content[0])
-                            print("梦想内容：", msg_content[1])
-                            return u"[梦想号] 恭喜您，您的梦想放飞成功！\n 您的梦想ID为:%s" % dream_id
-                        else:
-                            return server_hint
-                    else:
-                        return u'[梦想号] 放飞梦想参数有误'
+                    return add_dream(msg, msg_content)
                 # 删除梦想
                 elif op == 'D' or op == 'd':
                     if len(msg_content) >= 2:
@@ -105,6 +96,25 @@ def text_reply(msg):
                    u'非常感谢您搭乘梦想号！'
         # 回复给好友
         return server_hint
+
+
+def add_dream(msg, msg_content):
+    if len(msg_content) >= 3:
+        dream_name = msg_content[1]
+        dream_content = msg_content[2]
+        if len(dream_name) < 2:
+            return u'梦想名过短'
+        if len(dream_content) < 10:
+            return u'梦想内容过短'
+        dream_id = DreamDB.insert_dream_data(dream_name, dream_content, msg['User']['NickName'], '')
+        if dream_id != '':
+            print("梦想名称：", dream_name)
+            print("梦想内容：", dream_content)
+            return u"[梦想号] 恭喜您，您的梦想放飞成功！\n 您的梦想ID为：%s" % dream_id
+        else:
+            return server_hint
+    else:
+        return u'[梦想号] 放飞梦想参数有误'
 
 
 # 向微信发送消息

@@ -189,7 +189,7 @@ def query_dream_comment():
     return comment_json
 
 
-# 查询加油梦想评论数据
+# 查询我的梦想
 @app.route('/query/my/dream')
 def query_my_dream():
 
@@ -198,6 +198,69 @@ def query_my_dream():
     my_dream = DreamDB.query_my_dream_data(device)
 
     my_dream_json = json.dumps(my_dream, ensure_ascii=False)
+
+    print(my_dream_json)
+
+    return my_dream_json
+
+
+# 删除我的梦想
+@app.route('/delete/my/dream')
+def query_my_dream():
+    result_str = '删除梦想失败'
+    result_code = 0
+    result_msg = '删除梦想失败'
+
+    uuid = request.args.get('uuid')
+
+    if '' == uuid or uuid is None:
+        result_msg = '梦想id不能为空'
+    else:
+        result = DreamDB.my_dream = DreamDB.delete_dream_by_id(uuid)
+        if '' != result and result is not None:
+            result_msg = '删除梦想成功'
+            result_str = result_msg
+            result_code = 1
+            print('梦想删除成功')
+
+    result_item = {}
+    result_item['code'] = result_code
+    result_item['msg'] = result_msg
+    result_item['data'] = result_str
+
+    my_dream_json = json.dumps(result_item, ensure_ascii=False)
+
+    print(my_dream_json)
+
+    return my_dream_json
+
+
+# 完成我的梦想
+@app.route('/finish/my/dream')
+def query_my_dream():
+
+    result_str = '完成梦想失败'
+    result_code = 0
+    result_msg = '完成梦想失败'
+
+    uuid = request.args.get('uuid')
+
+    if '' == uuid or uuid is None:
+        result_msg = '梦想id不能为空'
+    else:
+        result = DreamDB.my_dream = DreamDB.finish_dream_by_id(uuid)
+        if '' != result and result is not None:
+            result_msg = '梦想完成成功'
+            result_str = result_msg
+            result_code = 1
+            print('梦想完成成功')
+
+    result_item = {}
+    result_item['code'] = result_code
+    result_item['msg'] = result_msg
+    result_item['data'] = result_str
+
+    my_dream_json = json.dumps(result_item, ensure_ascii=False)
 
     print(my_dream_json)
 
