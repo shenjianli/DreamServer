@@ -206,7 +206,7 @@ def query_my_dream():
 
 # 删除我的梦想
 @app.route('/delete/my/dream')
-def query_my_dream():
+def delete_my_dream():
     result_str = '删除梦想失败'
     result_code = 0
     result_msg = '删除梦想失败'
@@ -237,7 +237,7 @@ def query_my_dream():
 
 # 完成我的梦想
 @app.route('/finish/my/dream')
-def query_my_dream():
+def finish_my_dream():
 
     result_str = '完成梦想失败'
     result_code = 0
