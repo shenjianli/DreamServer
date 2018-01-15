@@ -159,26 +159,30 @@ python DreamServer.py
 
 ### 1.进入梦想号
 
-[](/img/enter_dream_plane.png)
+![](/img/enter_dream_plane.png)
 
 ### 2.放飞梦想
 A_梦想名_梦想内容
 
-[](/img/fly_my_dream.png)
+![](/img/fly_my_dream.png)
 
 ### 3.修改查询梦想
+
 M_梦想ID_梦想名_梦想内容
-[](/img/modify_query_my_dream.png)
+![](/img/modify_query_my_dream.png)
 
 ### 4.完成删除梦想
 F_梦想ID<br>     D_梦想ID
-[](/img/finish_delete_my_dream.png)
+![](/img/finish_delete_my_dream.png)
 
 ### 5.梦想号提示
-[](/img/dream_plane_hint1.png)
+
+![](/img/dream_plane_hint1.png)
 
 ### 6.梦想号测试模式下5分钟提示一次，正常情况下是每天只提示一次
-[](/img/dream_hint_5_mins.png)
+
+![](/img/dream_hint_5_mins.png)
 
 ### 视频观看
+
 请您稳步vedio目录下，谢谢
