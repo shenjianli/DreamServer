@@ -193,4 +193,4 @@ python DreamServer.py
 
 请您移步vedio目录下
 
-[](https://github.com/shenjianli/DreamServer/blob/master/video/Dream_WeChat.mp4)
+[视频观看](https://github.com/shenjianli/DreamServer/blob/master/video/Dream_WeChat.mp4)
