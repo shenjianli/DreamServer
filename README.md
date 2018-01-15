@@ -170,6 +170,7 @@ python DreamServer.py
 
 ### 3.修改查询梦想
 按"M_梦想ID_梦想名_梦想内容"这个格式输入修改数据，发送即可修改您的梦想
+按"Q_梦想ID"这个格式输入，发送即可查询您的梦想
 
 ![](/img/modify_query_my_dream.png)
 
@@ -181,12 +182,15 @@ python DreamServer.py
 
 ### 5.梦想号提示
 梦想号第天对您的梦想进行提示
+
 ![](/img/dream_plane_hint1.png)
 
 ### 6.梦想号测试模式下5分钟提示一次，正常情况下是每天只提示一次
+
 ![](/img/dream_hint_5_mins.png)
 
 ### 视频观看
 
 请您移步vedio目录下
+
 [](https://github.com/shenjianli/DreamServer/blob/master/video/Dream_WeChat.mp4)
