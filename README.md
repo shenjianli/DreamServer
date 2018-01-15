@@ -159,30 +159,34 @@ python DreamServer.py
 
 ### 1.进入梦想号
 
+输入任何文字内容发送后，即可进入梦想号
+
 ![](/img/enter_dream_plane.png)
 
 ### 2.放飞梦想
-A_梦想名_梦想内容
+按“A_梦想名_梦想内容”这个格式输入梦想，点击发送，即可放飞梦想
 
 ![](/img/fly_my_dream.png)
 
 ### 3.修改查询梦想
+按"M_梦想ID_梦想名_梦想内容"这个格式输入修改数据，发送即可修改您的梦想
 
-M_梦想ID_梦想名_梦想内容
 ![](/img/modify_query_my_dream.png)
 
 ### 4.完成删除梦想
-F_梦想ID<br>     D_梦想ID
+按“F_梦想ID“格式完成梦想，完成梦想后，梦想号不再会第天提醒您<br>
+按”D_梦想ID“格式删除梦想，删除梦想后，你的梦想将化为泡影消失的无影无踪
+
 ![](/img/finish_delete_my_dream.png)
 
 ### 5.梦想号提示
-
+梦想号第天对您的梦想进行提示
 ![](/img/dream_plane_hint1.png)
 
 ### 6.梦想号测试模式下5分钟提示一次，正常情况下是每天只提示一次
-
 ![](/img/dream_hint_5_mins.png)
 
 ### 视频观看
 
-请您稳步vedio目录下，谢谢
+请您移步vedio目录下
+[](https://github.com/shenjianli/DreamServer/blob/master/video/Dream_WeChat.mp4)
