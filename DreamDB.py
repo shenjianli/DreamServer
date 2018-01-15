@@ -327,16 +327,16 @@ if __name__ == '__main__':
     print("Database mysql : %s " % version)
 
     # 创建梦想号使用的数据表
-    # create_dream_table()
+    create_dream_table()
     # CoupletDB.create_mysql_table()
     # JokeDB.create_joke_table()
     # UpdateDB.create_history_table()
 
     #insert_dream_data("2018学游泳", "希望自己在2018年，可以学会游泳", "JerryShen", "1234569")
     #
-    joke = query_my_dream_data("")
-    joke_json = json.dumps(joke, ensure_ascii=False)
-    print(joke_json)
+    # joke = query_my_dream_data("")
+    # joke_json = json.dumps(joke, ensure_ascii=False)
+    # print(joke_json)
 
     #update_dream_praise_count(1)
 
