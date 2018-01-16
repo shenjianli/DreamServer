@@ -47,8 +47,10 @@ def text_reply(msg):
                 elif op == 'D' or op == 'd':
                     if len(msg_content) >= 2:
                         result = DreamDB.delete_dream_by_id(msg_content[1])
-                        if result != '':
+                        if result != '' and result != '0':
                             return u'[梦想号] 您的梦想已经化为泡影！'
+                        elif result == '0':
+                            return u'[梦想号] 请确保你的梦想ID正确'
                         else:
                             return server_hint
                     else:

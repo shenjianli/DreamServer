@@ -217,7 +217,7 @@ def delete_my_dream():
         result_msg = '梦想id不能为空'
     else:
         result = DreamDB.my_dream = DreamDB.delete_dream_by_id(uuid)
-        if '' != result and result is not None:
+        if '' != result and result is not None and result != '0':
             result_msg = '删除梦想成功'
             result_str = result_msg
             result_code = 1

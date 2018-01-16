@@ -96,10 +96,10 @@ def delete_dream_by_id(dream_id):
 
     try:
         # 执行SQL语句
-        cursor.execute(sql % dream_id)
+        result = cursor.execute(sql % dream_id)
         db.commit()
-        print("[梦想号]", dream_id, "删除成功")
-        return '1'
+        print("[梦想号]", dream_id, "删除成功", result)
+        return str(result)
     except:
         db.rollback()
         print("Error: unable to fetch data")
@@ -327,12 +327,13 @@ if __name__ == '__main__':
     print("Database mysql : %s " % version)
 
     # 创建梦想号使用的数据表
-    create_dream_table()
+    # create_dream_table()
     # CoupletDB.create_mysql_table()
     # JokeDB.create_joke_table()
     # UpdateDB.create_history_table()
 
-    #insert_dream_data("2018学游泳", "希望自己在2018年，可以学会游泳", "JerryShen", "1234569")
+    # insert_dream_data("2018学游泳", "希望自己在2018年，可以学会游泳", "JerryShen", "1234569")
+    # insert_dream_data("艾融梦", "观互联网金融，问苍茫大地，谁主沉浮？数风流人物，还看今朝", "sssss", "2jsjkdskl")
     #
     # joke = query_my_dream_data("")
     # joke_json = json.dumps(joke, ensure_ascii=False)
@@ -341,7 +342,7 @@ if __name__ == '__main__':
     #update_dream_praise_count(1)
 
 
-    #delete_dream_by_id(1)
+    delete_dream_by_id('z6C43zwq5P')
 
     # update_dream_by_id(2, "111111", "222222222")
 
