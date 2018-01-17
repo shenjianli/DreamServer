@@ -300,6 +300,6 @@ def commit_dream_praise():
 
 # 主方法
 if __name__ == '__main__':
-    #app.config['SERVER_NAME'] = 'i2finance.dream.com'
+    # app.config['SERVER_NAME'] = 'i2finance.dream.com'
     # 表示主机地址与端口号
     app.run(host=Config.dream_server_site, port=Config.dream_server_port)

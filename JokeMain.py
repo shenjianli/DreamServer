@@ -78,7 +78,7 @@ def get_joke_list(joke_text):
 if __name__ == '__main__':
 
         jokePage = requests.get('http://www.jokeji.cn/list.htm')
-        #jokePage = requests.get('http://www.jokeji.cn/list_1.htm')
+        # jokePage = requests.get('http://www.jokeji.cn/list_1.htm')
         jokePage.encoding = 'gbk'
 
         jokeList = get_joke_list(jokePage.text)  # 使用正则表达式找到所有笑话页面的链接
@@ -121,6 +121,6 @@ if __name__ == '__main__':
                         print_joke(joke_no_except)
                         # 打印一个换行
                         print()
-        #关闭数据库
+        # 关闭数据库
         JokeDB.close_joke_db()
         UpdateDB.close_joke_db()
