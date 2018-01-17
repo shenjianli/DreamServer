@@ -157,6 +157,14 @@ if __name__ == '__main__':
     insert_couplet_data("生不如死", "一年三百六十五天天天打代码", "十兆九千八百七行行行见bug")
     insert_couplet_data("风调码顺", "上拜图灵只佑服务可用", "下跪关公但求永不宕机")
     insert_couplet_data("码到成功", "废寝忘食编程序", "闻机起早保运维")
+    insert_couplet_data("梦想", "梦是童心化七色", "想做欢歌飘九天")
+    insert_couplet_data("梦想", "梦乘飞鱼戏星月", "想做青鸟游太空")
+    insert_couplet_data("梦想", "理尽五湖四海天下财", "想通九州五岳八面路")
+    insert_couplet_data("梦想", "操场绿荫青春舞动", "案头书本梦想起航")
+    insert_couplet_data("梦想", "努力拼搏日可待", "追逐青春不后悔")
+    insert_couplet_data("理想人生", "理想城里理想成", "人生雾中人生悟")
+    insert_couplet_data("梦想", "携梦想乘风破浪", "有心为继往开来")
+    insert_couplet_data("梦想", "直上中天揽日月", "欲倾东海洗乾坤")
 
     # joke = query_couplet_data()
 

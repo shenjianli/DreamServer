@@ -109,15 +109,15 @@ def query_comment_data(dream_id):
 if __name__ == '__main__':
 
     # 创建梦想号使用的数据表
-    # create_dream_table()
+    create_dream_table()
     #
     # insert_comment_data(1, "不错，不错，梦想的味道真不错")
     # insert_comment_data(1, "加油向未来")
 
     #
-    joke = query_comment_data(1)
-    joke_json = json.dumps(joke, ensure_ascii=False)
-    print(joke_json)
+    # joke = query_comment_data(1)
+    # joke_json = json.dumps(joke, ensure_ascii=False)
+    # print(joke_json)
 
     #delete_dream_by_id(1)
 
