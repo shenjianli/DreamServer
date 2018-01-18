@@ -14,7 +14,7 @@ mysql_db = 'dream'
 
 
 # 服务器端口
-dream_server_port = 8089
+dream_server_port = 8099
 # 服务器地址
 dream_server_site = '0.0.0.0'
 

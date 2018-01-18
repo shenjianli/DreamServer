@@ -332,8 +332,11 @@ if __name__ == '__main__':
     # JokeDB.create_joke_table()
     # UpdateDB.create_history_table()
 
-    # insert_dream_data("2018学游泳", "希望自己在2018年，可以学会游泳", "JerryShen", "1234569")
-    # insert_dream_data("艾融梦", "观互联网金融，问苍茫大地，谁主沉浮？数风流人物，还看今朝", "sssss", "2jsjkdskl")
+    insert_dream_data("2018学游泳", "希望自己在2018年，可以学会游泳", "", "1234569")
+    insert_dream_data("2018技术", "希望自己在2018年，可以在Android技术方面上一个大台阶", "", "2jsjkdskl")
+    insert_dream_data("旅行", "希望自己在2018年，可以有一场说走就走的旅行", "", "2jsjkdskl")
+    insert_dream_data("有一所房子", "我有一所房子,面朝大海,春暖花开", "", "")
+    insert_dream_data("梦想", "我要用梦想让世界，为我们激荡", "", "")
     #
     # joke = query_my_dream_data("")
     # joke_json = json.dumps(joke, ensure_ascii=False)
