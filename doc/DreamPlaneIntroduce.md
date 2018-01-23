@@ -7,8 +7,9 @@
 
 用浏览器扫码下载：
 
+![](/img/dream_plane_video_download_qrcode.png)
 
-[]()
+[演示视频下载](https://github.com/shenjianli/DreamServer/blob/master/video/dream_plane_video_540_low.mp4?raw=true)
 
 ### 创作理念
 
