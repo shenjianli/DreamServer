@@ -1,7 +1,12 @@
 ## 梦想号演示
 
 ### 简介
+
 梦想号@B2C项目（张勇、徐达、董亚、申建利）
+
+梦想号演示结构框架
+
+![](/img/dream_plane_introduce_framework.png)
 
 ### 视频地址
 
